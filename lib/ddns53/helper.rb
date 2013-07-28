@@ -13,6 +13,7 @@ module Helper
       rrsets.each do |rr|
         if(rr.type == "A" and rr.resource_records.size == 1)
           fqdn = rr.name.chomp(".")
+          next unless is_valid_fqdn?(fqdn)
           a_records.push({
             fqdn:       fqdn,
             ip:         rr.resource_records.first[:value],
@@ -25,7 +26,17 @@ module Helper
     a_records
   end
 
+  def is_valid_fqdn?(fqdn)
+    fqdn_list.include?(fqdn)
+  end
+
+  def fqdn_list
+    env = ENV["DDNS53_FQDN"] || ""
+    env.split(",")
+  end
+
   def update_a_record(fqdn)
+    return false unless is_valid_fqdn?(fqdn)
     zones.each do |zone|
       rrsets = AWS::Route53::HostedZone.new(zone[:id]).rrsets
       rrsets.each do |rr|
