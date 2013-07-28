@@ -7,14 +7,14 @@ html
     table class="pure-table pure-table-bordered"
       thead
         tr
-          th.name name
+          th.fqdn FQDN
           th.ip   IP
-          th.ttl  ttl
+          th.ttl  TTL
           th.update update?
       tbody
         - a_records
           tr
-            td.name = name
+            td.fqdn = fqdn
             td.ip   = ip
             td.ttl  = ttl
             td.update

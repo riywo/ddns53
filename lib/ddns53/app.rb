@@ -11,11 +11,11 @@ class App < Sinatra::Base
     slim :index
   end
 
-  get '/:name' do
-    if update_a_record params[:name]
+  get '/:fqdn' do
+    if update_a_record params[:fqdn]
       redirect to('/')
     else
-      halt 400, 'invalid name'
+      halt 400, 'invalid FQDN'
     end
   end
 end

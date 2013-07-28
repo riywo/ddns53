@@ -12,11 +12,12 @@ module Helper
       rrsets = AWS::Route53::HostedZone.new(zone[:id]).rrsets
       rrsets.each do |rr|
         if(rr.type == "A" and rr.resource_records.size == 1)
+          fqdn = rr.name.chomp(".")
           a_records.push({
-            name:       rr.name,
+            fqdn:       fqdn,
             ip:         rr.resource_records.first[:value],
             ttl:        rr.ttl,
-            update_url: "/#{rr.name}",
+            update_url: "/#{fqdn}",
           })
         end
       end
@@ -24,11 +25,11 @@ module Helper
     a_records
   end
 
-  def update_a_record(name)
+  def update_a_record(fqdn)
     zones.each do |zone|
       rrsets = AWS::Route53::HostedZone.new(zone[:id]).rrsets
       rrsets.each do |rr|
-        if(rr.type == "A" and rr.resource_records.size == 1 and rr.name == name)
+        if(rr.type == "A" and rr.resource_records.size == 1 and rr.name.chomp(".") == fqdn)
           rr.resource_records = [{
             value: request.ip
           }]
