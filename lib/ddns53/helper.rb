@@ -35,6 +35,10 @@ module Helper
     env.split(",")
   end
 
+  def ttl
+     ENV.has_key? 'DDNS53_TTL' ? ENV['DDNS53_TTL'].to_i : 300
+  end
+
   def update_a_record(fqdn)
     return false unless is_valid_fqdn?(fqdn)
     zones.each do |zone|
@@ -44,7 +48,7 @@ module Helper
           rr.resource_records = [{
             value: request.ip
           }]
-          rr.ttl = ENV['DDNS53_TTL'].to_i if ENV.has_key? 'DDNS53_TTL'
+          rr.ttl = ttl
           rr.update
           return true
         end
