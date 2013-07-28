@@ -32,6 +32,7 @@ module Helper
           rr.resource_records = [{
             value: request.ip
           }]
+          rr.ttl = ENV['DDNS53_TTL'].to_i if ENV.has_key? 'DDNS53_TTL'
           rr.update
           return true
         end
