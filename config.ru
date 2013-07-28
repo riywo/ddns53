@@ -1,7 +1,6 @@
 $:.unshift File.expand_path("../lib", __FILE__)
-require 'ddns53'
+require 'rack'
 env = ENV['RACK_ENV'] || "development"
-
 if env == 'development'
   require 'dotenv'
   Dotenv.load
@@ -18,4 +17,5 @@ use Rack::Auth::Digest::MD5, {
   Digest::MD5.new.update('%s:%s:%s' % [ENV['DDNS53_USER'], REALM, ENV['DDNS53_PASS']])
 end
 
-run Ddns53
+require 'ddns53/app'
+run Ddns53::App.new

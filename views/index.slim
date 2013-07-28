@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title ddns53
+    link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css"
+  body
+    table class="pure-table pure-table-bordered"
+      thead
+        tr
+          th.name name
+          th.ip   IP
+          th.ttl  ttl
+          th.update update?
+      tbody
+        - a_records
+          tr
+            td.name = name
+            td.ip   = ip
+            td.ttl  = ttl
+            td.update
+              a class="pure-button pure-button-primary" href=update_url update
