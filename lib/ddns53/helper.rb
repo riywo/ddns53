@@ -36,7 +36,7 @@ module Helper
   end
 
   def ttl
-     ENV.has_key? 'DDNS53_TTL' ? ENV['DDNS53_TTL'].to_i : 300
+     ENV.has_key?('DDNS53_TTL') ? ENV['DDNS53_TTL'].to_i : 300
   end
 
   def update_a_record(fqdn)
