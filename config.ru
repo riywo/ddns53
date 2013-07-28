@@ -1,12 +1,15 @@
 $:.unshift File.expand_path("../lib", __FILE__)
 require 'ddns53'
-require 'rack/auth/digest/md5'
-require 'digest/md5'
-require 'dotenv'
-Dotenv.load
+env = ENV['RACK_ENV'] || "development"
 
-REALM = "ddns53"
+if env == 'development'
+  require 'dotenv'
+  Dotenv.load
+end
 
+REALM = "Authentication for ddns53"
+
+Rack::Auth::Digest::Nonce::time_limit = 1
 use Rack::Auth::Digest::MD5, {
   :realm            => REALM,
   :opaque           => "",
